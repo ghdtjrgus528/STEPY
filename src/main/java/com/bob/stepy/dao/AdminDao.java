@@ -3,9 +3,6 @@ package com.bob.stepy.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.bob.stepy.dto.*;
 
 public interface AdminDao {
