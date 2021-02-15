@@ -5,12 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Welcome Travelers!</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<jsp:include page="aImports.jsp" />
 <link rel="stylesheet" href="resources/css/aSideBarStyle.css">
 <link href="resources/css/style.css" rel="stylesheet">
 <script type="text/javascript">

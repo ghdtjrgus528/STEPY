@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
+<jsp:include page="aImports.jsp" />
 <!-- 메일&이벤트&신고 공통 스타일 -->
 <link rel="stylesheet"
 	href="resources/css/aGroupMail&Event&ReportStyle.css">

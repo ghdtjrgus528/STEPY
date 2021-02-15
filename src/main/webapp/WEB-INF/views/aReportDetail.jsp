@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
+<jsp:include page="aImports.jsp" />
 <link rel="stylesheet" href="resources/css/aReportDetailStyle.css">
 </head>
 <body>

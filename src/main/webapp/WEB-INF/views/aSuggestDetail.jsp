@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>건의사항 상세보기</title>
+<jsp:include page="aImports.jsp" />
 <link href="resources/css/style.css" rel="stylesheet">
 <link href="resources/css/aDetailStyle.css" rel="stylesheet">
 </head>

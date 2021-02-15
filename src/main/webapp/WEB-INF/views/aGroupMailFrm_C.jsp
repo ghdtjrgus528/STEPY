@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
+<jsp:include page="aImports.jsp"/>
 </head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->
