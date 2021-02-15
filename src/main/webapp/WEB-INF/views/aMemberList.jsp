@@ -29,10 +29,6 @@
 					<!--  -->
 					<input type="radio" name="choice" value="3" id="f-only"> <label
 						for="f-only">여성 회원만</label><br>
-					<!--  -->
-					<label>ID 검색</label> <input type="text" id="id_search">
-					<!--  -->
-					<input type="button" id="id_search2" value="검색">
 				</caption>
 				<thead>
 					<tr>
@@ -125,25 +121,6 @@
 		console.log("여성 보기");
 		for (var i = 0; i < trs.length; i++) {
 			if (genders[i].innerHTML == "여") {
-				$(trs[i]).removeClass("hide");
-			} else {
-				trs[i].classList.add("hide");
-			}
-		}
-	});
-
-	$('#id_search').change(function() {
-		for (var i = 0; i < trs.length; i++) {
-			if (mIds[i].innerHTML.includes(id_search.value)) {
-				$(trs[i]).removeClass("hide");
-			} else {
-				trs[i].classList.add("hide");
-			}
-		}
-	});
-	$('#id_search2').change(function() {
-		for (var i = 0; i < trs.length; i++) {
-			if (mIds[i].innerHTML.includes(id_search.value)) {
 				$(trs[i]).removeClass("hide");
 			} else {
 				trs[i].classList.add("hide");

@@ -28,16 +28,13 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				type="radio" name="choice" value="2" id="finished-only"> <label
 				for="finished-only">승인완료 회원만</label> <!--  --> <input type="radio"
 				name="choice" value="3" id="unfinished-only"> <label
-				for="unfinished-only">승인대기 회원만</label> <br> <!--  --> <label>닉네임
-					검색</label> <input type="text" id="id_search"> <!--  --> <input
-				type="button" id="id_search2" value="검색">
+				for="unfinished-only">승인대기 회원만</label>
 			</font>
 		</caption>
 		<thead>
 			<tr>
 				<th>승인 여부 확인</th>
 				<th>사업자 등록 번호</th>
-				<th>비밀번호</th>
 				<th>이메일</th>
 				<th>닉네임</th>
 				<th>생년월일</th>
@@ -50,7 +47,6 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 			<tr class="item">
 				<td class="joinCell">${cItem.c_join }</td>
 				<td class="cNum">${cItem.c_num}</td>
-				<td>${cItem.c_pwd}</td>
 				<td>${cItem.c_email}</td>
 				<td class="nickName">${cItem.c_name}</td>
 				<td>${cItem.c_phone}</td>
@@ -161,25 +157,5 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 	!= 1) {
 		filter.classList.add("hide");
 	}
-
-	//닉네임 검색 (포함 검색)
-	$('#id_search').change(function() {
-		for (var i = 0; i < trs.length; i++) {
-			if (nickNms[i].innerHTML.includes(id_search.value)) {
-				$(trs[i]).removeClass("hide");
-			} else {
-				trs[i].classList.add("hide");
-			}
-		}
-	});
-	$('#id_search2').change(function() {
-		for (var i = 0; i < trs.length; i++) {
-			if (nickNms[i].innerHTML.includes(id_search.value)) {
-				$(trs[i]).removeClass("hide");
-			} else {
-				trs[i].classList.add("hide");
-			}
-		}
-	});
 </script>
 <script src="resources/js/aAutoColspan.js"></script>
