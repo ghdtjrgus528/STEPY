@@ -19,7 +19,7 @@
 		<div class="row">
 			<jsp:include page="aSideBar.jsp" />
 			<div class="formArea col-sm-10" align="center">
-				<form action="aSendMail" method="post">
+				<form action="aSendMail" method="post"  enctype="multipart/form-data">
 					<fieldset>
 						<legend>발송 대상</legend>
 						<div class="mail_tgt">

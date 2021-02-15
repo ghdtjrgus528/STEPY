@@ -41,7 +41,7 @@
 							<td class="hidden-xs col-md-1" rowspan="2"
 								style="text-align: center; background-color: #CCFFFF">내용</td>
 							<td class="col-md-7 col-xs-11 " style="height: 450px;">${event.e_contents}
-								<c:if test="${!empty fList}">
+								<br> <c:if test="${!empty fList}">
 									<c:forEach var="f" items="${fList}">
 										<c:if test="${fn:contains(f.f_sysname, '.jpg')}">
 											<img src="resources/upload/${f.f_sysname}" width="250">

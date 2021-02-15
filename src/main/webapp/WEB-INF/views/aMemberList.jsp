@@ -110,7 +110,7 @@
 	$('#m-only').change(function() {
 		console.log("남성 보기");
 		for (var i = 0; i < trs.length; i++) {
-			if (genders[i].innerHTML == "남") {
+			if (genders[i].innerHTML == "남성") {
 				$(trs[i]).removeClass("hide");
 			} else {
 				trs[i].classList.add("hide");
@@ -121,7 +121,7 @@
 	$('#f-only').change(function() {
 		console.log("여성 보기");
 		for (var i = 0; i < trs.length; i++) {
-			if (genders[i].innerHTML == "여") {
+			if (genders[i].innerHTML == "여성") {
 				$(trs[i]).removeClass("hide");
 			} else {
 				trs[i].classList.add("hide");
