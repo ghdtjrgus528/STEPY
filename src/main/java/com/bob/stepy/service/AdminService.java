@@ -50,18 +50,19 @@ public class AdminService {
 		String view =null;
 
 		String id = member.getM_id();
+		String rawPw = member.getM_pwd();
 
 		//파라미터받은 DTO내의 id를 기반으로 DB에서 SELECT로 비밀번호 가져오기
 		//암호화된 비밀번호화 입력한 비밀번호의 비교 처리를 위한
 		//인코더 생성
 		BCryptPasswordEncoder pwdEncode = new BCryptPasswordEncoder();
 
-		//DB에서 가져오는 pw
+		//DB에서 가져오는 pw (암호화 상태)
 		String pw = aDao.getPwd(id);
 
 		if (pw != null) {
-
-			if (pw.equals(member.getM_pwd())) {
+			//입력한 날것 상태의 값 - 암호화 상태의 암호값 대조 명령어
+			if (pwdEncode.matches(rawPw, pw)) {
 
 				//단, 어드민 전용 로그인이므로 가져온(입력한) id까지 미리 등록한 (DB)실제 어드민 ID와 같아야 진행
 				if(id.equals("admin")) {
@@ -71,24 +72,23 @@ public class AdminService {
 					session.setAttribute("member", member);
 					view = "aHome";
 				}
-				else {//id가 admin이 아닌 경우 어드민이 아니라고 판단, 권한 없음 경고
+				//id가 admin이 아닌 경우 어드민이 아니라고 판단, 권한 없음 경고
+				else {
 					view = "redirect:aLoginFrm";
 					rttr.addFlashAttribute("msg", "접속 권한이 없습니다");
 				}
 			}//ID도 PW도 맞는 경우의 if 끝
 
-			else {//ID는 맞았으나 비밀번호를 틀린 경우
+			//ID는 맞았으나 비밀번호를 틀린 경우
+			else {
 				//로그인 페이지로 돌아감, 보여줄 메시지를 리다이렉트의 플래시 어트리뷰트에 등록
 				view ="redirect:aLoginFrm";
-
-				//애드 '플래시' 어트리뷰트여야 리다이렉트 시에도 데이터를 담을 수 있음
-				//애드 어트리뷰트시 주소창에 get방식으로 데이터 담김
 				rttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다");
 			}//ID는 맞고 PW는 틀린 경우의 else 끝
 		}//ID는 맞는 경우의 IF 끝
 
+		//아이디부터 DB에 없어 아예 없는 계정으로 판단
 		else {
-			//아이디부터 DB에 없어 아예 없는 계정으로 판단
 			//로그인 페이지로 돌아감, 보여줄 메시지를 리다이렉트의 플래시 어트리뷰트에 등록
 			view ="redirect:aLoginFrm";
 			rttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다");
@@ -132,7 +132,7 @@ public class AdminService {
 			break;
 		}
 
-		//설정값(페이지 당 보여줄 글 개수, 한 페이지 그룹에 보여줄 페이지 수, 게시판 이름(A게시판,B게시판) 등) 각인
+		//설정값 각인
 		int pageCnt = 5;//한 페이지 그룹당 페이지 수
 		int listCnt = 20;//한 페이지당 레코드 수
 		String listName = ttl;//게시판 이름
