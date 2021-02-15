@@ -28,7 +28,9 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				type="radio" name="choice" value="2" id="finished-only"> <label
 				for="finished-only">승인완료 회원만</label> <!--  --> <input type="radio"
 				name="choice" value="3" id="unfinished-only"> <label
-				for="unfinished-only">승인대기 회원만</label> <br>
+				for="unfinished-only">승인대기 회원만</label> <br> <!--  --> <label>닉네임
+					검색</label> <input type="text" id="id_search"> <!--  --> <input
+				type="button" id="id_search2" value="검색">
 			</font>
 		</caption>
 		<thead>
@@ -50,7 +52,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<td class="cNum">${cItem.c_num}</td>
 				<td>${cItem.c_pwd}</td>
 				<td>${cItem.c_email}</td>
-				<td>${cItem.c_name}</td>
+				<td class="nickName">${cItem.c_name}</td>
 				<td>${cItem.c_phone}</td>
 				<td class="check" onclick="checkConfirm('${cItem.c_num}');">승인하기</td>
 				<td class="report">${cItem.c_report}</td>
@@ -76,6 +78,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 	var cNumbers = document.getElementsByClassName("cNum");
 	var trs = document.getElementsByClassName("item");
 	var reports = document.getElementsByClassName("report");
+	var nickNms = document.getElementsByClassName("nickName");
 
 	for (var i = 0; i < joinCells.length; i++) {
 		if (joinCells[i].innerHTML == "pending") {
@@ -158,5 +161,25 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 	!= 1) {
 		filter.classList.add("hide");
 	}
+
+	//닉네임 검색 (포함 검색)
+	$('#id_search').change(function() {
+		for (var i = 0; i < trs.length; i++) {
+			if (nickNms[i].innerHTML.includes(id_search.value)) {
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	});
+	$('#id_search2').change(function() {
+		for (var i = 0; i < trs.length; i++) {
+			if (nickNms[i].innerHTML.includes(id_search.value)) {
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	});
 </script>
 <script src="resources/js/aAutoColspan.js"></script>

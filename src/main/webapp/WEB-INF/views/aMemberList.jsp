@@ -28,12 +28,15 @@
 						for="m-only">남성 회원만</label>
 					<!--  -->
 					<input type="radio" name="choice" value="3" id="f-only"> <label
-						for="f-only">여성 회원만</label>
+						for="f-only">여성 회원만</label><br>
+					<!--  -->
+					<label>ID 검색</label> <input type="text" id="id_search">
+					<!--  -->
+					<input type="button" id="id_search2" value="검색">
 				</caption>
 				<thead>
 					<tr>
 						<th>아이디</th>
-						<th>비밀번호</th>
 						<th>이메일</th>
 						<th>이름</th>
 						<th>닉네임</th>
@@ -47,7 +50,6 @@
 				<c:forEach var="mItem" items="${mList}">
 					<tr class="item">
 						<td class="mid">${mItem.m_id}</td>
-						<td>${mItem.m_pwd}</td>
 						<td>${mItem.m_email}</td>
 						<td>${mItem.m_name}</td>
 						<td>${mItem.m_nickname}</td>
@@ -79,7 +81,7 @@
 	deleteCells = document.getElementsByClassName("delete");
 	trs = document.getElementsByClassName("item");
 	genders = document.getElementsByClassName("gender");
-	
+
 	function delConfirm(m_id) {
 		if (m_id == 'admin') {
 			return;
@@ -123,6 +125,25 @@
 		console.log("여성 보기");
 		for (var i = 0; i < trs.length; i++) {
 			if (genders[i].innerHTML == "여") {
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	});
+
+	$('#id_search').change(function() {
+		for (var i = 0; i < trs.length; i++) {
+			if (mIds[i].innerHTML.includes(id_search.value)) {
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	});
+	$('#id_search2').change(function() {
+		for (var i = 0; i < trs.length; i++) {
+			if (mIds[i].innerHTML.includes(id_search.value)) {
 				$(trs[i]).removeClass("hide");
 			} else {
 				trs[i].classList.add("hide");
