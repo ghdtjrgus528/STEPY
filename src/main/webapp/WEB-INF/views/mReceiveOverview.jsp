@@ -132,22 +132,19 @@ $('textrea').keyup(function() {
 							contents.m_id = "${member.m_id}";
 
 							$.ajax({
-										url : "mRetrieveByContents",
-										type : "post",
-										data : contents,
-										dataType : "json",
-										success : function(result) {
+									url : "mRetrieveByContents",
+									type : "post",
+									data : contents,
+									dataType : "json",
+									success : function(result) {
+										var nullck = result.searchList;
 
-											var nullck = result.searchList;
-
-											if (nullck.length == 0) {
-												$("#alarm").css("display",
-														"block");
-												$("#alarm")
-														.text(
-																"결과를 찾을 수 없습니다! 다른 글자를 입력해 주세요");
-												return;
-											}
+										if (nullck.length == 0) {
+											$("#alarm").css("display",
+													"block");
+											$("#alarm").text("결과를 찾을 수 없습니다! 다른 글자를 입력해 주세요");
+											return;
+										}
 
 											$("#alarm").css("display", "none");
 

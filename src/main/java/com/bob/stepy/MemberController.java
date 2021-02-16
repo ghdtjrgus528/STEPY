@@ -85,6 +85,7 @@ public class MemberController {
 		
 		return mv;
 	}
+	
 
 	@ResponseBody
 	@PostMapping(value="mUpdatePwd", produces = "application/text; charset=utf-8")
@@ -98,7 +99,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value="mGetCrypPwd", produces = "application/text; charset=utf-8")
 	public String mGetCrypPwd(String pwd, String m_id) {
-		log.info(pwd + " , "+m_id);
+		
 		String set = mServ.mGetCrypPwd(pwd, m_id);
 		
 		return set;
@@ -122,7 +123,7 @@ public class MemberController {
 	}
 
 	@ResponseBody
-	@PostMapping(value = "mRetrieveByContents" , produces = "application/json; charset = utf-8")
+	@PostMapping(value = "mRetrieveByContents", produces = "application/json; charset = utf-8")
 	public Map<String, List<MessageDto>> mRetrieveByContents(String contents, String m_id){
 		log.info("mRetrieveByContents");
 
@@ -176,7 +177,7 @@ public class MemberController {
 		return mv;
 	}
 
-	@PostMapping("mSendMessageProc")//이걸...보낸메일 받은 메일 이렇게 구분할까 . 그럼 보낸메일부분에 보내주면 되겠네 redirect 로. 
+	@PostMapping("mSendMessageProc")
 	public String mSendMessageProc(MessageDto msg, RedirectAttributes rttr) {
 
 		String path = mServ.mSendMessageProc(msg,rttr);

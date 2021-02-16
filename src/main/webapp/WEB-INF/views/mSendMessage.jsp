@@ -79,7 +79,7 @@ $(function(){
 		if(hostid == ""){
 			$("#toid").val("");
 		}if(hostid !== ""){
-			$("#toid").val("${host.m_nickname}");
+			$("#toid").val("${host.m_id}");
 		}
 	}
 	

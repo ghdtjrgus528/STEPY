@@ -214,7 +214,7 @@
 		var m_id = {
 			"ms_mid" : host
 		};
-
+		
 		$.ajax({
 			url : "mUploadAfterView",
 			type : "get",
@@ -223,10 +223,8 @@
 				mNewMsgCount(host);
 			},
 			error : function(error) {
-
 			}
 		});
-
 	}
 
 	function mNewMsgCount(host) {
@@ -247,8 +245,6 @@
 				$("#newMsg").text(newmsg);
 			},
 			error : function(error) {
-				console.log("problem?");
-				alert(error);
 			}
 		});
 	}

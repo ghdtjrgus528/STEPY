@@ -109,7 +109,8 @@ public class MemberService {
 		MemberKaKaoTokenDto tokenDto = null;
 
 		try {
-			tokenDto = objectMapper.readValue(response.getBody(), MemberKaKaoTokenDto.class);
+			tokenDto = objectMapper.readValue(response.getBody()
+					, MemberKaKaoTokenDto.class);
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
@@ -123,7 +124,6 @@ public class MemberService {
 		if(member.getM_email().equals("no_email_detected")) {
 			rttr.addFlashAttribute("msgforlogin", "eamil 정보수집에 동의해주세요");
 			//로그아웃처리 
-
 			mKakaoDisconnect(tokenDto.getAccess_token());
 			return "redirect:mLoginFrm";
 		}
@@ -159,7 +159,8 @@ public class MemberService {
 		MemberKakaoProfileDto kakaoProfile = null;
 
 		try {
-			kakaoProfile = objectMapper.readValue(response.getBody(), MemberKakaoProfileDto.class);
+			kakaoProfile = objectMapper.readValue(response.getBody()
+					, MemberKakaoProfileDto.class);
 
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
@@ -170,11 +171,13 @@ public class MemberService {
 		System.out.println("The format of user id for stepy is "
 				+kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
 
-		String idPreCheck = kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId();
+		String idPreCheck = kakaoProfile.getKakao_account().getEmail()+"_"
+		+kakaoProfile.getId();
 
 		MemberDto memberDto = new MemberDto();
 
-		if(kakaoProfile.getKakao_account().getEmail() == "" || kakaoProfile.getKakao_account().getEmail() == null) {
+		if(kakaoProfile.getKakao_account().getEmail() == "" 
+				|| kakaoProfile.getKakao_account().getEmail() == null) {
 			memberDto.setM_email("no_email_detected");
 			return memberDto;
 		}
@@ -186,7 +189,8 @@ public class MemberService {
 			memberDto.setM_email(kakaoProfile.getKakao_account().getEmail());
 			memberDto.setM_name(kakaoProfile.getKakao_account().getProfile().getNickname());
 			memberDto.setM_nickname(kakaoProfile.getKakao_account().getProfile().getNickname());
-			memberDto.setM_pwd("mustbekeptwithoutanyleak11!!");//default password for users who logged in from kakaotalk
+			memberDto.setM_pwd("mustbekeptwithoutanyleak11!!");
+			//default password for users who logged in from kakaotalk
 
 			try {
 				mJoinProc(memberDto);
@@ -215,7 +219,6 @@ public class MemberService {
 		HttpEntity<MultiValueMap<String,String>> forDisconnection = 
 				new HttpEntity<>(headers);
 
-
 		ResponseEntity<String> response = rt.exchange(
 
 				"https://kapi.kakao.com/v1/user/unlink",
@@ -233,7 +236,6 @@ public class MemberService {
 		String userid = profile.getKakao_account().getEmail()+"_"+profile.getId();
 		URL url = new URL(imageUrl);
 
-
 		String dirpath = session.getServletContext().getRealPath("/");
 		dirpath += "resources/profile/";
 
@@ -243,11 +245,11 @@ public class MemberService {
 		}
 
 		String sourcefileName = url.getFile();
-		String sysName = System.currentTimeMillis() + sourcefileName.substring(sourcefileName.lastIndexOf("."));
-		System.out.println("sysName is : "+sysName);
-		String oriName = profile.getId() +"_"+ sourcefileName.substring(sourcefileName.lastIndexOf("/")+1);
+		String sysName = System.currentTimeMillis() 
+				+ sourcefileName.substring(sourcefileName.lastIndexOf("."));
+		String oriName = profile.getId() +"_"
+				+ sourcefileName.substring(sourcefileName.lastIndexOf("/")+1);
 		String fileName = dirpath + oriName;
-		System.out.println("file path is : " + fileName);
 		ReadableByteChannel readChannel = Channels.newChannel(url.openStream());
 
 		FileOutputStream fileOS = new FileOutputStream(fileName);
@@ -259,7 +261,6 @@ public class MemberService {
 		fileDto.setF_oriname(oriName);
 		fileDto.setF_sysname(sysName);
 		fileDto.setF_mnum(userid);
-
 
 		mDao.mKakaoThumbUpload(fileDto);
 
@@ -281,9 +282,11 @@ public class MemberService {
 		member.setM_pwd(actualpwd);
 
 
-		if(member.getAddress_without_specific() != "" && member.getAddress_without_specific() != null ) {
+		if(member.getAddress_without_specific() != "" 
+				&& member.getAddress_without_specific() != null ) {
 			if(member.getAddress_with_specific() !="") {
-				realaddr = member.getAddress_without_specific() +" "+ member.getAddress_with_specific();
+				realaddr = member.getAddress_without_specific() +" "
+			+ member.getAddress_with_specific();
 				member.setM_addr(realaddr);
 			}
 			else if(member.getAddress_with_specific()== ""){
@@ -293,7 +296,6 @@ public class MemberService {
 		}
 
 		try {
-
 			mOnceCreateProfile();
 
 			mDao.memberInsert(member);
@@ -543,8 +545,7 @@ public class MemberService {
 			}
 			mv.addObject("mpList", mpList);
 			mv.addObject("sort",1);
-		}
-		else {
+		}else {
 			List<MemberPostDto> mrListori = mDao.mGetMyReplyList(blog_id);
 			List<MemberPostDto> mrList = new ArrayList<MemberPostDto>();
 
@@ -610,12 +611,13 @@ public class MemberService {
 			rttr.addFlashAttribute("msg",msg);
 			return;
 		}
-
 		String realaddr;
-
-		if(member.getAddress_without_specific() != "" && member.getAddress_without_specific() != null ) {
+		
+		if(member.getAddress_without_specific() != ""
+				&& member.getAddress_without_specific() != null ) {
 			if(member.getAddress_with_specific() !="") {
-				realaddr = member.getAddress_without_specific() +" "+ member.getAddress_with_specific();
+				realaddr = member.getAddress_without_specific() +" "
+			+ member.getAddress_with_specific();
 				member.setM_addr(realaddr);
 			}
 			else if(member.getAddress_with_specific()== ""){
@@ -626,7 +628,6 @@ public class MemberService {
 
 		mDao.mModifyUserInfo(member);	
 		session.setAttribute("member", member);
-
 		msg = "변경사항이 저장되었습니다!";
 		rttr.addFlashAttribute("msgFromModify", msg);
 
@@ -636,14 +637,14 @@ public class MemberService {
 
 
 	public ModelAndView mSendMessage(String toid, String fromid) {
-		log.info("toid is..."+toid+ " And from id is My id : "+fromid);  
+		//toid : 보내는이 	fromid : 받는이( 현재 세션에 있는 접속 유저  = launch )  
 		mv = new ModelAndView();
 
 		MemberDto guest = mDao.getMemeberInfo(fromid);
 		mv.addObject("guest", guest);
 
 		MemberDto host = mDao.getMemeberInfo(toid);
-		System.out.println("Testing if host is null or not "+host);
+
 		mv.addObject("host", host);
 
 		mv.setViewName("mSendMessage");
@@ -657,17 +658,14 @@ public class MemberService {
 
 		mv = new ModelAndView();
 		String path;
-
 		String ms_mid = msg.getMs_mid();
 		String ms_smid = msg.getMs_smid();
 
 		if(mDao.duplicationCheck(ms_mid) == 0) {
-			log.info("please work please");
 			rttr.addAttribute("fromid", ms_smid);
 			rttr.addAttribute("toid", "");
 			rttr.addFlashAttribute("nouserfound", "존재하지 않는 유저입니다!");
 			return "redirect:mSendMessage";
-
 		}
 
 		MessageDto before = mDao.mGetBfMsg(ms_mid);
@@ -676,7 +674,6 @@ public class MemberService {
 			msg.setMs_bfread(1);
 			msg.setMs_afread(0);
 			mDao.mSetMessage(msg);
-
 		}else {
 			msg.setMs_bfread(before.getMs_bfread()+1);
 			msg.setMs_afread(before.getMs_afread());
@@ -684,15 +681,8 @@ public class MemberService {
 			mDao.mSetMessage(msg);
 		}
 
-
 		rttr.addAttribute("hostid", ms_smid);
-
-		//List<MessageDto> smList = mDao.mGetMsgList(ms_mid);
-		//MessageDto md1 = smList.get(0);
-		//System.out.println(md1);
-
 		path= "redirect:mMeSendOverview";
-
 		return path;
 	}
 
@@ -766,7 +756,6 @@ public class MemberService {
 			msg = fork;
 		}
 
-
 		return msg;
 	}
 
@@ -817,7 +806,7 @@ public class MemberService {
 		fileDto.setF_oriname(oriname);
 		fileDto.setF_sysname(sysname);
 		fileDto.setF_mnum(member.getM_id());
-		System.out.println(fileDto);
+
 
 		mDao.mKakaoThumbUpload(fileDto);
 
@@ -843,7 +832,6 @@ public class MemberService {
 	}
 
 
-
 	public Map<String, List<MessageDto>> mRetrieveByUsername(String userid, String m_id) {
 
 		MessageDto msg = new MessageDto();
@@ -857,7 +845,6 @@ public class MemberService {
 		return map;
 
 	}
-
 
 
 	public String mGetCrypPwd(String pwd, String m_id){

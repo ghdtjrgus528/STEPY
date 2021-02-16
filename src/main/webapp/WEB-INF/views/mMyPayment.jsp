@@ -298,8 +298,7 @@ a:link, a:visited, a:hover, a:active {
 
 		IMP.init('imp49865347');
 
-		IMP
-				.request_pay(
+		IMP.request_pay(
 						{
 							pg : 'inicis',
 							pay_method : 'card',
@@ -320,19 +319,19 @@ a:link, a:visited, a:hover, a:active {
 									"resnum" : resnum
 								};
 
-								$
-										.ajax({
-											url : "mPaiedInFull",
-											type : "post",
-											data : object,
-											success : function(rsp) {
-												window.location.href = 'http://localhost/stepy/mMyPayment?sort=2';
-											},
-											error : function(rsp) {
-												alert("error");
-											}
+								$.ajax({
+										url : "mPaiedInFull",
+										type : "post",
+										data : object,
+										success : function(rsp) {
+											window.location.href = 
+												'http://localhost/stepy/mMyPayment?sort=2';
+										},
+										error : function(rsp) {
+											alert("error");
+										}
 
-										});
+									});
 
 							} else {
 								var msg = "error or cancled payment";

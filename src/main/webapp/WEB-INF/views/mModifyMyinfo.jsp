@@ -105,7 +105,7 @@ li .active{
 					<div class="form-group">
 						<label class="col-lg-3 control-label">닉네임: </label>
 						<div class="col-lg-8">
-							<input class="form-control" id="nickname" name="m_nickname" type="text" value="${member.m_nickname }">
+							<input class="form-control" id="nickname" name="m_nickname" type="text" maxlength="11" value="${member.m_nickname }">
 						</div>
 					</div>
 					<div class="form-group">

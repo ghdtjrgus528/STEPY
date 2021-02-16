@@ -115,7 +115,7 @@
 					<div class="form-group row">
 						<label for="nickname" class="col-sm-2 col-form-label">*닉네임</label>
 						<div class="col-sm-7">
-							<input type="text" name="m_nickname" class="form-control" id="nickname" required>
+							<input type="text" name="m_nickname" class="form-control" id="nickname" maxlength="11" required>
 						</div>
 					</div>
 					

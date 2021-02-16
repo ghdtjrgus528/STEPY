@@ -62,7 +62,8 @@
 	<select id="mGetBfMsg" parameterType="String"
 		resultType="com.bob.stepy.dto.MessageDto">
 	<![CDATA[
-		SELECT * FROM (SELECT * FROM MS WHERE MS.MS_MID = #{ms_mid} ORDER BY MS.MS_NUM DESC) WHERE ROWNUM <= 1
+		SELECT * FROM (SELECT * FROM MS WHERE MS.MS_MID = 
+		#{ms_mid} ORDER BY MS.MS_NUM DESC) WHERE ROWNUM <= 1
 		]]>
 	</select>
 
@@ -82,7 +83,7 @@
         FROM MS
         INNER JOIN MEMBER ON MS_MID = MEMBER.M_ID
         WHERE MS.MS_SMID=#{smid}
-        ) MS
+        )
         WHERE UR >= #{page}*5-4 AND UR<= #{page}*5
 		]]>
 	</select>
@@ -96,7 +97,7 @@
         FROM MS
         INNER JOIN MEMBER ON MS_SMID = MEMBER.M_ID
         WHERE MS.MS_MID=#{mid}
-        ) MS
+        )
         WHERE UR >= #{page}*5-4 AND UR<= #{page}*5
 		]]>
 	</select>
@@ -148,6 +149,7 @@
 		ORDER BY MS.MS_NUM
 		DESC)
 	</select>
+	
 	<update id="mUpdatePwd">
 		UPDATE M SET M_PWD = #{m_pwd} WHERE M_ID = #{m_id}
 	</update>
@@ -167,7 +169,7 @@
 	<select id="mGetLikedPost"
 		resultType="com.bob.stepy.dto.PostDto">
 		<![CDATA[
-		SELECT * FROM (SELECT P.P_NUM, P.P_TITLE, P.P_CONTENTS, P.P_CATEGORY, P.P_DATE, P.P_VIEW, P.P_LIKE, P.P_MID 
+		SELECT * FROM (SELECT P.*
 		FROM P
 		INNER JOIN L ON P.P_NUM = L.L_PNUM 
 		WHERE L.L_MID = #{mid} ORDER BY L.L_NUM DESC)
