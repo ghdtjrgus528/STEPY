@@ -17,18 +17,18 @@ public interface StoreDao {
 	
 	//회원가입
 	public void cJoinProc(CeoDto ceo);
-	public void stJoinProc(StoreDto store);
-	
-	//사업자번호 중복체크
-	public int stIdCheck(String c_num);	
+	public void stJoinProc(StoreDto store);	
+
 	//사업자등록증 저장
 	public boolean stFileUp(Map<String, String> fmap);
 	
-	//비밀번호 구하기
-	public String getStEncPwd(String c_num);
+	//사업자번호 중복체크
+	public int stIdCheck(String c_num);	
 	
 	//로그인 전 c_join 정보 가져오기
 	public String getCjoin(String c_num);
+	//비밀번호 구하기
+	public String getStEncPwd(String c_num);
 	
 	//로그인 후 업체 정보 가져오기
 	public CeoDto getCeoInfo(String c_num);

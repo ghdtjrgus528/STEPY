@@ -208,11 +208,19 @@ public class StoreService {
 		String cnum = request.getParameter("c_num");
 		int cnt = stDao.stIdCheck(cnum); //입력한 사업자번호 카운트
 		
+		String cjoin = null;
+		cjoin = stDao.getCjoin(cnum);	
+		
 		if(cnt == 1) { //해당 정보가 있음
-			CeoDto ceo = new CeoDto();
-			ceo = stDao.getCeoInfo(cnum);
-			session.setAttribute("ceo", ceo);
-			result = "redirect:stCheckInfoFrm";
+			if(cjoin.equals("pending")) { //pending인 업체
+				rttr.addFlashAttribute("msg", "미승인 업체는 비밀번호 변경이 불가합니다.");
+				result = "redirect:stHome";			
+			} else { //approve 업체
+				CeoDto ceo = new CeoDto();
+				ceo = stDao.getCeoInfo(cnum);
+				session.setAttribute("ceo", ceo);
+				result = "redirect:stCheckInfoFrm";
+			}			
 		} else { //해당 정보가 없거나 틀릴 때
 			rttr.addFlashAttribute("msg", "일치하는 정보가 없습니다.");
 			result = "redirect:stFindPwdFrm";

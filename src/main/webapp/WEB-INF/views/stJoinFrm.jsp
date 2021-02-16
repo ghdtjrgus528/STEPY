@@ -43,6 +43,9 @@ label {
 	width: 68%;
 	display: inline;
 }
+.alert {
+	margin-top: 5px;
+}
 </style>
 <script type="text/javascript">
 $(function(){	
@@ -69,7 +72,10 @@ $(function(){
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">비밀번호</label>
-    		<input type="password" class="form-control" name="c_pwd" required>
+    		<input type="password" class="form-control" name="c_pwd" id="c_pwd" required placeholder="비밀번호 입력">
+    		<input type="password" class="form-control" id="c_pwd_check" required placeholder="비밀번호 재입력">
+    		<div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
+    		<div class="alert alert-danger" id="alert-danger">비밀번호가 틀립니다.</div>
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">사업주명</label>
@@ -114,7 +120,7 @@ $(function(){
   		
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">가게 설명</label>
-    		<textarea class="form-control" rows="3" name="s_summary" placeholder="100자 이내"></textarea>
+    		<textarea class="form-control" rows="3" name="s_summary" placeholder="1000자 이내"></textarea>
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">카테고리</label>
@@ -234,6 +240,25 @@ $("#file").on('change', function(){
 	}
 });
 
+$(function(){
+	$("#alert-success").hide();
+	$("#alert-danger").hide();
+	$("input").keyup(function(){
+		var pwd1 = $("#c_pwd").val();
+		var pwd2 = $("#c_pwd_check").val();
+		if(pwd1 != "" || pwd2 != ""){
+			if(pwd1 == pwd2){
+				$("#alert-success").show();
+				$("#alert-danger").hide();
+				$("submit").removeAttr("disabled");
+			} else {
+				$("#alert-success").hide();
+				$("#alert-danger").show();
+				$("#submit").attr("disabled", "disabled");
+			}
+		}
+	});	
+});
 
 </script>
 

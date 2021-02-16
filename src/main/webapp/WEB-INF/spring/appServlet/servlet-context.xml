@@ -50,6 +50,13 @@
 				<exclude-mapping path="/stJoinProc"/>
 				<exclude-mapping path="/stIdCheck"/>
 				<exclude-mapping path="/stLoginProc"/>
+				<exclude-mapping path="/stFindPwdFrm"/>
+				<exclude-mapping path="/stFindPwdProc"/>
+				<exclude-mapping path="/stCheckInfoFrm"/>
+				<exclude-mapping path="/stCheckInfoProc"/>
+				<exclude-mapping path="/stResetPwdFrm"/>
+				<exclude-mapping path="/stResetPwdProc"/>
+				<exclude-mapping path="/stAuthMail"/> <!-- 삭제 예정 -->				
 				<exclude-mapping path="/aLoginFrm"/>
 				<exclude-mapping path="/aHome"/>
 				<exclude-mapping path="/bCommunity"/>

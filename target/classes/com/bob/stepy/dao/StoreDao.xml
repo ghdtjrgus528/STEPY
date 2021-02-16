@@ -12,25 +12,26 @@
 		INSERT INTO S VALUES (#{s_num}, #{s_phone}, #{s_name}, #{s_addr1}, #{s_addr2}, #{s_addr3}, #{s_summary}, #{s_category}, default)
 	</insert>
 	
-	<!-- 중복체크 -->
-	<select id="stIdCheck" parameterType="String" resultType="Integer">
-		SELECT COUNT(*) FROM C WHERE C_NUM=#{c_num}
-	</select>
-	
 	<!-- 사업자등록증 첨부 -->
 	<insert id="stFileUp" parameterType="HashMap">
 		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_CNUM, F_THUMB)
 		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{c_num}, 'AUTH')
 	</insert>
 	
+	<!-- 중복체크 -->
+	<select id="stIdCheck" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM C WHERE C_NUM=#{c_num}
+	</select>
+	
+	<!-- c_join값 가져오기 -->
+	<select id="getCjoin" parameterType="String" resultType="String">
+		SELECT C_JOIN FROM C WHERE C_NUM=#{c_num}
+	</select>	
 	<!-- 로그인 -->
 	<select id="getStEncPwd" parameterType="String" resultType="String">
 		SELECT C_PWD FROM C WHERE C_NUM=#{c_num}
 	</select>
-	<!-- c_join값 가져오기 -->
-	<select id="getCjoin" parameterType="String" resultType="String">
-		SELECT C_JOIN FROM C WHERE C_NUM=#{c_num}
-	</select>
+
 
 	<!-- 로그인 정보 가져오기 -->
 	<select id="getCeoInfo" parameterType="String" resultType="com.bob.stepy.dto.CeoDto">

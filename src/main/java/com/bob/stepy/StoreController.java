@@ -25,20 +25,8 @@ public class StoreController {
 	@Autowired
 	private StoreService stServ;
 	
-	private ModelAndView mv;
-	
-	
-	@GetMapping("stHome")
-	public String stHome() {
-		log.info("stHome()");
-		return "stHome";
-	}
-	
-	@GetMapping("stJoinFrm")
-	public String stJoinFrm() {
-		log.info("stJoinFrm()");
-		return "stJoinFrm";
-	}
+	private ModelAndView mv;	
+
 	
 	@GetMapping("stMyPage")
 	public String stMyPage() {
@@ -82,11 +70,23 @@ public class StoreController {
 		return result;
 	}			
 	
+	@GetMapping("stJoinFrm")
+	public String stJoinFrm() {
+		log.info("stJoinFrm()");
+		return "stJoinFrm";
+	}
+	
 	@PostMapping("stJoinProc")
 	public String stJoinProc(CeoDto ceo, StoreDto store, RedirectAttributes rttr, MultipartHttpServletRequest multi) {
 		log.info("stJoinProc()");
 		String view = stServ.stJoinProc(ceo, store, rttr, multi);
 		return view;
+	}
+	
+	@GetMapping("stHome")
+	public String stHome() {
+		log.info("stHome()");
+		return "stHome";
 	}
 	
 	@PostMapping("stLoginProc")
