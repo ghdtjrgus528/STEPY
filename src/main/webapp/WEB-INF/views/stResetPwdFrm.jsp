@@ -25,7 +25,6 @@ $(function(){
 		location.reload(true);
 	}
 });
-
 </script>
 
 <style type="text/css">
@@ -48,6 +47,9 @@ label {
 .input-mt {
 	margin-top: 5px;
 }
+.alert {
+	margin-top: 5px;
+}
 </style>
 
 </head>
@@ -65,8 +67,9 @@ label {
 			<div class="col-12">
 				<label for="inputAddress" class="form-label">새 비밀번호</label><br>
     			<input type="password" class="form-control" id="c_pwd" name="c_pwd" required placeholder="새 비밀번호">
-    			<input type="password" class="form-control input-mt" id="c_pwd2" required placeholder="새 비밀번호 확인">
-    			<input type="hidden" name="nothing" id="nothing" value="">
+    			<input type="password" class="form-control input-mt" id="c_pwd_check" required placeholder="새 비밀번호 확인">
+    			<div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
+    			<div class="alert alert-danger" id="alert-danger">비밀번호가 틀립니다.</div>    			
 			</div>
 			<div class="col-12">
   				<h6 class="pwdComp text-right"></h6>
@@ -82,25 +85,24 @@ label {
 	</footer>
 </body>
 <script type="text/javascript">
-$("#c_pwd2").on('change paste', function(){	
-	var pwd1 = $("#c_pwd").val();
-	var pwd2 = $("#c_pwd2").val();
-	var msg1 = "*일치합니다.";
-	var msg2 = "*일치하지 않습니다. 다시 작성하여 주십시오";
-		
-	if(pwd1 == pwd2){
-		document.querySelector(".pwdComp").innerHTML = msg1;
-		document.querySelector(".pwdComp").style.color = 'blue';
-	} else {
-		document.querySelector(".pwdComp").innerHTML = msg2;
-		document.querySelector(".pwdComp").style.color = 'red';
-		$('#c_pwd').val('');
-		$('#c_pwd2').val('');
-		$('#c_pwd').focus();
-	}
-
-	
+$(function(){
+	$("#alert-success").hide();
+	$("#alert-danger").hide();
+	$("input").keyup(function(){
+		var pwd1 = $("#c_pwd").val();
+		var pwd2 = $("#c_pwd_check").val();
+		if(pwd1 != "" || pwd2 != ""){
+			if(pwd1 == pwd2){
+				$("#alert-success").show();
+				$("#alert-danger").hide();
+				$("submit").removeAttr("disabled");
+			} else {
+				$("#alert-success").hide();
+				$("#alert-danger").show();
+				$("#submit").attr("disabled", "disabled");
+			}
+		}
+	});	
 });
-
 </script>
 </html>
