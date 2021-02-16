@@ -3,82 +3,67 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- DOCTYPE을 통해 맵퍼 기능 활성화 완료, DAO파일 스캔 '네임스페이스' 속성값=스캔 대상 클래스 이름 -->
+
 <mapper namespace="com.bob.stepy.dao.AdminDao">
-	<!-- 로그인시 비밀번호 구하기 SELECT -->
-	<!-- id값은 DAO클래스에서의 메소드명과 통일 파라미터,리절트 타입도 DAO 클래스에서 지정했던 타입과 맞춤 -->
+
 	<select id="getPwd" parameterType="String" resultType="String">
-		<!-- 파라미터되는 id를 따라 패스워드 SELECT -->
-		SELECT M_PWD FROM M WHERE M_ID=#{m_id}
+		SELECT
+		M_PWD FROM M WHERE M_ID=#{m_id}
 	</select>
 
-	<!-- 사용자에게만 필요한 정보들만 담은 뷰를 SELECT ID,이름,포인트,등급만 담긴 뷰(MINFO)를 SELECT함 -->
 	<select id="getMemberInfo" parameterType="String"
 		resultType="com.bob.stepy.dto.MemberDto">
 		SELECT * FROM M WHERE M_ID=#{m_id}
 	</select>
 
-	<!-- 회원 목록 가져오기 getMemberList -->
 	<select id="getMemberList" parameterType="Integer"
 		resultType="com.bob.stepy.dto.MemberDto">
-		<!-- 미완성 요소가 필요없으므로 쿼리 그대로 등록 -->
 		SELECT * FROM M
 		ORDER BY M_ID
 	</select>
+	<select id="getMemberCnt" resultType="Integer">
+		SELECT COUNT(*) FROM M
+	</select>
 
-	<!-- 회원 목록 가져오기 getMemberList -->
+
 	<select id="getAllCeoList" parameterType="Integer"
 		resultType="com.bob.stepy.dto.CeoDto">
-		<!-- 미완성 요소가 필요없으므로 쿼리 그대로 등록 -->
 		select * FROM C
 		ORDER BY C_NUM
 	</select>
+	<select id="getAllCeoCnt" resultType="Integer">
+		SELECT COUNT(*) FROM C
+	</select>
 
-	<!-- 승인 완료 업체 목록 가져오기 1 getApproveList -->
-	<!-- 단, '승인 완료' 조건이 붙으므로 승인 여부 칼럼인 c_join이 'approve'가 맞는 레코드만 조회 -->
+
 	<select id="getApproveList" parameterType="Integer"
 		resultType="com.bob.stepy.dto.CeoDto">
 		select * FROM C
 		WHERE C_JOIN='approve'
 		ORDER BY C_NUM
 	</select>
+	<select id="getApproveCeoCnt" resultType="Integer">
+		SELECT COUNT(*) FROM C
+		WHERE C_JOIN='approve'
+	</select>
 
-	<!-- 승인 완료 업체 목록 가져오기 2 getAuthList -->
-	<!-- 단, '승인 대기'의 반대 조건이 붙으므로 승인 여부 칼럼인 c_join이 'pending'이 맞는 레코드만 조회 -->
 	<select id="getPendingList" parameterType="Integer"
 		resultType="com.bob.stepy.dto.CeoDto">
 		select * FROM C
 		WHERE C_JOIN='pending'
 		ORDER BY C_NUM
 	</select>
-
-	<!-- 전체 개수 구하기, SELECT COUNT SELECT의 대상이 잡힐 때마다 카운트+1 처리 -->
-	<select id="getMemberCnt" resultType="Integer">
-		SELECT COUNT(*) FROM M
-	</select>
-
-	<!-- 레코드 개수 구하기 - C 테이블 -->
-	<!-- 전체, 승인완료, 승인대기의 조건 3개가 독립적이므로 카운트 쿼리도 3개 -->
-	<select id="getAllCeoCnt" resultType="Integer">
-		SELECT COUNT(*) FROM C
-	</select>
-	<select id="getApproveCeoCnt" resultType="Integer">
-		SELECT COUNT(*) FROM C
-		WHERE C_JOIN='approve'
-	</select>
 	<select id="getPendingCeoCnt" resultType="Integer">
 		SELECT COUNT(*) FROM C
 		WHERE C_JOIN='pending'
 	</select>
 
-	<!-- pending(대기중) 상태의 업체 회원을 approve(허가) 상태로 업데이트 -->
 	<update id="permitStore" parameterType="String">
 		UPDATE C SET C_JOIN =
 		'approve'
 		WHERE C_NUM=#{c_num}
 	</update>
 
-	<!-- 지정한 대상을 DB에서 강제 삭제 DELETE -->
 	<delete id="deleteMember" parameterType="String">
 		DELETE FROM M
 		WHERE
@@ -91,7 +76,6 @@
 		C_NUM=#{c_num}
 	</delete>
 
-	<!-- 메일 전송 대상 이메일 리스트만 받기 -->
 	<select id="getMailList_M" resultType="String">
 		SELECT M_EMAIL from M
 	</select>
@@ -100,7 +84,6 @@
 		SELECT C_EMAIL from C
 	</select>
 
-	<!-- 이벤트 테이블 관련 쿼리 -->
 	<select id="getEventList" parameterType="Integer"
 		resultType="com.bob.stepy.dto.EventDto">
 		SELECT * FROM E
@@ -130,18 +113,13 @@
 	<insert id="InsertEvent"
 		parameterType="com.bob.stepy.dto.EventDto" useGeneratedKeys="true"
 		keyProperty="enum">
-		<!-- order속성으로 본 쿼리인 INSERT보다 먼저 SELECT 시퀀스 먼저 처리 시퀀스의 다음값을 SELECT로 가져와 
-			기억, 키프로퍼티인 eNum에 셀렉트키 결과값을 기억시킴 -->
 		<selectKey keyProperty="e_num" resultType="int"
 			order="BEFORE">
-			<!-- 지금까지 처리된 시퀀스에서 다음으로 나올 번호를 가져옴 -->
 			SELECT EVENT_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
-
 		INSERT INTO E VALUES
 		(${e_num}, #{e_title}, #{e_contents}, #{e_date})
 	</insert>
-	<!-- 파일 업로드 처리, 이벤트 첨부파일이므로 외래키 f_enum만 등록 -->
 	<insert id="fileInsert" parameterType="HashMap">
 		INSERT INTO F
 		(F_NUM,
@@ -180,27 +158,35 @@
 		F_NUM=#{f_num}
 	</delete>
 
-	<!-- 신고 처리 관련 -->
 	<select id="getReportList_C" parameterType="Integer"
 		resultType="com.bob.stepy.dto.ReportDto">
 		SELECT * FROM RP
 		WHERE RP_CATEGORY='업체'
 		ORDER BY RP_NUM
 	</select>
-	<!-- P,R은 전용 신고글을 쓰지 않고 처리하므로 P,R테이블에서 직접 조회 -->
+
 	<select id="getReportList_P" parameterType="Integer"
 		resultType="com.bob.stepy.dto.PostDto">
 		SELECT * FROM P
 		WHERE P_REPORT>0
 	</select>
+	<select id="getReportCnt_P" resultType="Integer">
+		SELECT COUNT(*) FROM P
+		WHERE P_REPORT>0
+	</select>
+
 	<select id="getReportList_R" parameterType="Integer"
 		resultType="com.bob.stepy.dto.ReplyDto">
 		SELECT * FROM R
 		WHERE R_REPORT>0
 	</select>
+	<select id="getReportCnt_R" resultType="Integer">
+		SELECT COUNT(*) FROM R
+		WHERE R_REPORT>0
+	</select>
 
 	<select id="getReportCnt" resultType="Integer">
-		SELECT COUNT(*) FROM R
+		SELECT COUNT(*) FROM RP
 	</select>
 
 	<select id="getReportRecord" parameterType="Integer"
@@ -208,16 +194,20 @@
 		SELECT * FROM RP
 		WHERE RP_NUM=#{rp_num}
 	</select>
+
+
 	<select id="getCeoRecord" parameterType="String"
 		resultType="com.bob.stepy.dto.CeoDto">
 		SELECT * FROM C
 		WHERE C_NUM=#{rp_cnum}
 	</select>
+
 	<delete id="deletePost" parameterType="Integer">
 		DELETE FROM P
 		WHERE
 		P_NUM=#{p_num}
 	</delete>
+
 	<delete id="deleteReply" parameterType="Integer">
 		DELETE FROM R
 		WHERE
@@ -237,11 +227,13 @@
 	<select id="getSuggestCnt" resultType="Integer">
 		SELECT COUNT(*) FROM E
 	</select>
+
 	<select id="getSuggestRecord" parameterType="Integer"
 		resultType="com.bob.stepy.dto.SuggestDto">
 		SELECT * FROM SUG
 		WHERE SUG_NUM=#{sug_num}
 	</select>
+
 	<delete id="deleteSuggest" parameterType="Integer">
 		DELETE FROM SUG
 		WHERE
