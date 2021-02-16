@@ -270,7 +270,7 @@ public class SearchService {
 
 		Paging paging = new Paging(maxNum, num, listCnt, pageCnt, listName);
 
-		String pagingHtml = paging.makePaing();
+		String pagingHtml = paging.makePaging();
 
 		return pagingHtml;
 	}
